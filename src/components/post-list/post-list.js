@@ -3,12 +3,24 @@ import PostListItem from '../post-list-item';
 
 import "./post-list.css"
 
-const PostList = () =>{
+const PostList = ({posts}) =>{
+
+  const elements = posts.map((item)=>{
+    if(typeof(item) == 'object'){
+      return (
+        <li key={item.id} className='list-group-item'>
+          
+          <PostListItem {...item}
+          />
+        </li>
+      )
+    }
+    
+  })
+
   return(
     <ul className="app-list list-group">
-      <PostListItem/>
-      <PostListItem/>
-      <PostListItem/>
+      {elements}
     </ul>
   )
 }

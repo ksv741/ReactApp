@@ -1,28 +1,65 @@
-import React from 'react';
-
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import EditWindow from '../edit-panel';
 import "./post-list-item.css"
 
-let createTime = new Date();
-
-const PostListItem = () => {
-  return(
-    <li className="app-list-item d-flex justify-content-between">
-      <span className="app-list-item-label">
-        Hi there
-      </span>
-      <span>
-        *created {createTime.getFullYear()}.{createTime.getMonth()+1}.{createTime.getDate()} {createTime.getHours()}.{createTime.getMinutes()}
-      </span>
-      <div className="d-flex justify-content-center align-items-center">
-        <button className="btn-star btn-sm">
-          <i className="fa fa-star"></i>
-        </button>
-        <button className="btn-trash btn-sm">
-          <i className="fa fa-trash-o"></i>
-        </button>
-        <i className="fa fa-heart"></i>
+export default class PostListItem extends Component {
+  constructor(props){
+    super(props)
+  }
+  state = {
+    important: false,
+    like: false
+  }
+  onImportant = () => {
+    this.setState(({important}) =>({
+      important: !important
+    }));
+  }
+  onLike = () => {
+    this.setState(({like}) =>({
+      like: !like
+    }));
+  }
+  onEdit = (event) =>{
+    ReactDOM.render(<EditWindow label='sdfsdf'/>, event.target.closest('li'));
+  }
+  render(){
+    const {label} = this.props;
+    const {important, like} = this.state;
+    let classNames = "app-list-item d-flex justify-content-between";
+    if(important){
+      classNames += ' important';
+    }
+    if(like){
+      classNames += ' like';
+    }
+    return (
+      <div className={classNames}>
+        <span 
+        className="app-list-item-label"
+        onClick={this.onLike}>
+          {label}
+        </span>
+        <div className="d-flex justify-content-center align-items-center">
+          <button 
+          className="btn-star btn-sm"
+          onClick={this.onImportant}>
+            <i className="fa fa-star"></i>
+          </button>
+          <button className="btn-trash btn-sm">
+            <i className="fa fa-trash-o"></i>
+          </button>
+          <button 
+          className="btn-edit btn-sm"
+          onClick={this.onEdit}>
+            <i className="fa fa-pencil"></i>
+          </button>
+          <i className="fa fa-heart"></i>
+        </div>
       </div>
-    </li>
-  )
+    )
+    
+  }
+
 }
-export default PostListItem

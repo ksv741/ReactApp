@@ -8,26 +8,11 @@ export default class PostListItem extends Component {
   constructor(props){
     super(props)
   }
-  state = {
-    important: false,
-    like: false
-  }
-  onImportant = () => {
-    this.setState(({important}) =>({
-      important: !important
-    }));
-  }
-  onLike = () => {
-    this.setState(({like}) =>({
-      like: !like
-    }));
-  }
   onEdit = (event) =>{
     ReactDOM.render(<EditWindow label='sdfsdf'/>, event.target.closest('li'));
   }
   render(){
-    const {label, onDelete} = this.props;
-    const {important, like} = this.state;
+    const {label, onDelete, onToggleLiked, onToggleImportant, important, like} = this.props;
     let classNames = "app-list-item d-flex justify-content-between";
     if(important){
       classNames += ' important';
@@ -39,13 +24,13 @@ export default class PostListItem extends Component {
       <div className={classNames}>
         <span 
         className="app-list-item-label"
-        onClick={this.onLike}>
+        onClick={onToggleLiked}>
           {label}
         </span>
         <div className="d-flex justify-content-center align-items-center">
           <button 
           className="btn-star btn-sm"
-          onClick={this.onImportant}>
+          onClick={onToggleImportant}>
             <i className="fa fa-star"></i>
           </button>
           <button 
